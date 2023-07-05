@@ -22,6 +22,7 @@ import HomePage from './HomePage';
 import Accrodions from './Accrodions';
 import IncomeDetails from './IncomeDetails';
 import Header from './Header';
+import {colors} from './theame'
 
 function App(): JSX.Element {
   // function findSum(a: Number, b: Number): { sum: Number } {
@@ -78,7 +79,7 @@ function App(): JSX.Element {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#00C29E',
+    backgroundColor: colors.secondary,
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',

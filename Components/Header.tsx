@@ -1,6 +1,7 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import Icon from 'react-native-vector-icons/MaterialIcons'
+import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import { colors } from './theame';
 
 const Header = (): JSX.Element => {
   return (
@@ -20,7 +21,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 50,
         border: 1,
-        backgroundColor: '#004D40',
+        backgroundColor: colors.primary,
         display: 'flex',
         alignItems: 'flex-start',
         justifyContent: 'center'
@@ -34,6 +35,7 @@ const styles = StyleSheet.create({
     },
     headerText: {
         fontSize:20,
-        fontWeight: '600'
+        fontWeight: '600',
+        color: colors.headerFontColor
     }
 })
