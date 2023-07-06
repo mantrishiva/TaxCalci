@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { View, TextInput, Button, Text, StyleSheet } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import DropDownPicker from 'react-native-dropdown-picker';
+import { RadioButton } from 'react-native-paper';
 import { colors } from './theame'
+import { Flex } from '@react-native-material/core';
 
 type FormData = {
     Year: string;
     totalIncome: string;
+    regima: string;
 };
 
 const data = [
@@ -29,7 +32,11 @@ const HomePage: React.FC = () => {
         control,
         handleSubmit,
         formState: { errors },
-    } = useForm<FormData>();
+    } = useForm<FormData>({
+        defaultValues:{
+            regima: 'new'
+        }
+    });
     const [genderOpen, setGenderOpen] = useState(false);
     const [year, setGenderValue] = useState(null);
     const [gender, setGender] = useState([
@@ -81,8 +88,12 @@ const HomePage: React.FC = () => {
                                 zIndex={3000}
                                 zIndexInverse={1000}
                             />
+                            {errors.Year && (
+                                <Text style={{ color: 'red' }}>{errors.Year.message}</Text>
+                            )}
                         </View>
                     )}
+                    rules={{ required: 'Year is required' }}
                 />
             </View>
             <View style={styles.incomeContainer}>
@@ -106,12 +117,32 @@ const HomePage: React.FC = () => {
                         </View>
                     )}
                     name="totalIncome"
-                    rules={{ required: 'Last name is required' }}
+                    rules={{ required: 'Total income is required' }}
                     defaultValue=""
                 />
             </View>
-
-            <View>
+            <Controller
+                control={control}
+                render={({ field: { value, onChange } }) => (
+                    <>
+                        <RadioButton.Group onValueChange={onChange} value={value}>
+                            <View style={styles.regimaStyles}>
+                                <View style={styles.alignRadio}>
+                                    <RadioButton.Item label="" style={styles.radio} value="new" />
+                                    <Text style={styles.labels}>new</Text>
+                                </View>
+                                <View style={styles.alignRadio}>
+                                    <RadioButton.Item label="" style={styles.radio} value="old" />
+                                    <Text style={styles.labels}>old</Text>
+                                </View>
+                            </View>
+                        </RadioButton.Group>
+                    </>
+                )}
+                name='regima'
+                defaultValue=""
+            />
+            <View style={styles.submitButton}>
                 <Button color={colors.primary} title="Submit" onPress={handleSubmit(onSubmit)} />
             </View>
         </View>
@@ -120,20 +151,17 @@ const HomePage: React.FC = () => {
 const styles = StyleSheet.create({
     container: {
         width: '100%',
+        padding: 5
     },
     placeholderStyles: {
         color: "grey",
     },
     dropdownGender: {
-        marginHorizontal: 10,
+        marginHorizontal: 5,
         width: "70%",
         marginBottom: 15,
         zIndex: 3,
         color: '#000000'
-    },
-    dropdownCompany: {
-        marginHorizontal: 10,
-        marginBottom: 15,
     },
     dropdown: {
         borderColor: "#B7B7B7",
@@ -155,7 +183,8 @@ const styles = StyleSheet.create({
         width: "100%",
         flexDirection: 'row',
         justifyContent: 'space-between',
-        zIndex: 3
+        zIndex: 3,
+        marginLeft: 7
     },
     incomeContainer: {
         display: "flex",
@@ -165,10 +194,11 @@ const styles = StyleSheet.create({
     },
     textfield: {
         zIndex: 1,
-        width: 150,
+        width: 230,
         marginLeft: 12,
         backgroundColor: '#FFFFFF',
         color: '#000000',
+        borderRadius: 10
         // position: 'absolute'
     },
     labels: {
@@ -176,6 +206,30 @@ const styles = StyleSheet.create({
         fontFamily: colors.fontFamily,
         fontWeight: "bold",
         fontSize: 16
+    },
+    regimaStyles: {
+        display: 'flex',
+        flexDirection: 'row'
+    },
+    alignRadio: {
+        flexDirection: 'row',
+        width: '30%',
+        marginTop: 15,
+        // backgroundColor: '#fff'
+        // justifyContent: 'flex-end'
+        // justifyContent: 'center'
+    },
+    radio: {
+        // backgroundColor: 'red',
+        height: 30,
+        width:50,
+        paddingLeft:5,
+        // backgroundColor: 'red'
+    },
+    submitButton: {
+        width: '50%',
+        alignSelf: 'center',
+        marginTop: 20
     }
 });
 
